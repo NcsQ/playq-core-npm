@@ -29,7 +29,10 @@ function resolveFromPackage(relative) {
     } catch (e) {
       // If tsconfig-paths is unavailable, proceed; relative imports will still work.
     }
-    require(distEntry);
+    const mod = require(distEntry);
+    if (mod && typeof mod.encryptUserInput === 'function') {
+      await Promise.resolve(mod.encryptUserInput());
+    }
     return;
   }
 
@@ -43,5 +46,8 @@ function resolveFromPackage(relative) {
     process.exit(1);
   }
 
-  require(tsEntry);
+  const tsMod = require(tsEntry);
+  if (tsMod && typeof tsMod.encryptUserInput === 'function') {
+    await Promise.resolve(tsMod.encryptUserInput());
+  }
 })();
