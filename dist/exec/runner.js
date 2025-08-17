@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
+// import minimist from 'minimist';
 const env_1 = require("../helper/bundle/env");
+// import os from 'os';
 const path_1 = __importDefault(require("path"));
 // Note: removed stray import from faker which caused build errors.
 // loadEnv();
@@ -15,7 +17,7 @@ const path_1 = __importDefault(require("path"));
 // console.log('  - Runner (PLAYQ_PROJECT):', process.env.PLAYQ_PROJECT );
 // console.log('  - Env (RUNNER - cc_card_type):', process.env['cc_card_type']);
 // console.log('  - Env (RUNNER - config.testExecution.timeout):', process.env['config.testExecution.timeout'] );
-if (process.env.PLAYQ_RUNNER && process.env.PLAYQ_RUNNER === 'cucumber') {
+if (process.env.PLAYQ_RUNNER && (process.env.PLAYQ_RUNNER === 'cucumber' || process.env.PLAYQ_RUNNER === 'cuke')) {
     (0, env_1.loadEnv)();
     const cucumberArgs = [
         'cucumber-js',

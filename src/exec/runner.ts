@@ -1,7 +1,7 @@
 import { spawnSync, execSync, spawn } from 'child_process';
-import minimist from 'minimist';
+// import minimist from 'minimist';
 import { loadEnv } from '../helper/bundle/env';
-import os from 'os';
+// import os from 'os';
 import path from 'path';
 // Note: removed stray import from faker which caused build errors.
 
@@ -14,7 +14,7 @@ import path from 'path';
 // console.log('  - Env (RUNNER - cc_card_type):', process.env['cc_card_type']);
 // console.log('  - Env (RUNNER - config.testExecution.timeout):', process.env['config.testExecution.timeout'] );
 
-if (process.env.PLAYQ_RUNNER && process.env.PLAYQ_RUNNER === 'cucumber') {
+if (process.env.PLAYQ_RUNNER && (process.env.PLAYQ_RUNNER === 'cucumber' || process.env.PLAYQ_RUNNER === 'cuke')) {
   loadEnv();
   const cucumberArgs = [
     'cucumber-js',
