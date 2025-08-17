@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.webLocResolver = exports.logFixture = exports.webFixture = exports.apiActions = exports.webActions = exports.actions = exports.report = exports.browsers = exports.utils = exports.vars = exports.loadEnv = void 0;
+exports.faker = exports.webLocResolver = exports.logFixture = exports.webFixture = exports.apiActions = exports.webActions = exports.actions = exports.report = exports.browsers = exports.utils = exports.vars = exports.loadEnv = void 0;
 // Public API surface for playq-core consumers
 var env_1 = require("./helper/bundle/env");
 Object.defineProperty(exports, "loadEnv", { enumerable: true, get: function () { return env_1.loadEnv; } });
@@ -52,5 +52,7 @@ var logFixture_1 = require("./helper/fixtures/logFixture");
 Object.defineProperty(exports, "logFixture", { enumerable: true, get: function () { return logFixture_1.logFixture; } });
 var webLocFixture_1 = require("./helper/fixtures/webLocFixture");
 Object.defineProperty(exports, "webLocResolver", { enumerable: true, get: function () { return webLocFixture_1.webLocResolver; } });
+var customFaker_1 = require("./helper/faker/customFaker");
+Object.defineProperty(exports, "faker", { enumerable: true, get: function () { return customFaker_1.faker; } });
 // Note: Global bootstrap is available at subpath export "playq-core/global" if needed.
 //# sourceMappingURL=index.js.map

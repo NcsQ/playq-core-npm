@@ -14,5 +14,6 @@ export * as apiActions from './helper/actions/apiActions';
 export { webFixture } from './helper/fixtures/webFixture';
 export { logFixture } from './helper/fixtures/logFixture';
 export { webLocResolver } from './helper/fixtures/webLocFixture';
+export { faker } from './helper/faker/customFaker';
 
 // Note: Global bootstrap is available at subpath export "playq-core/global" if needed.

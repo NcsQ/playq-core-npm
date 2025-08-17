@@ -9,4 +9,5 @@ export * as apiActions from './helper/actions/apiActions';
 export { webFixture } from './helper/fixtures/webFixture';
 export { logFixture } from './helper/fixtures/logFixture';
 export { webLocResolver } from './helper/fixtures/webLocFixture';
+export { faker } from './helper/faker/customFaker';
 //# sourceMappingURL=index.d.ts.map
