@@ -78,8 +78,8 @@ exports.pressKey = pressKey;
 exports.takeScreenshot = takeScreenshot;
 const global_1 = require("@src/global");
 const test_1 = require("@playwright/test");
-const runner_1 = require("@config/runner");
 const allure = __importStar(require("allure-js-commons"));
+const runner_1 = require("@config/runner");
 const commActions_1 = require("./commActions");
 const vars_1 = require("../bundle/vars");
 const isSmartAIEnabled = String(global_1.vars.getConfigValue("smartAI.enable")).toLowerCase().trim() === "true";
@@ -308,9 +308,7 @@ async function attachLog(message, mimeType = "text/plain") {
         }
     }
     else if ((0, runner_1.isPlaywrightRunner)()) {
-        await test_1.test
-            .info()
-            .attach("Log", { body: message, contentType: mimeType });
+        await test_1.test.info().attach("Log", { body: message, contentType: mimeType });
     }
     else {
         console.warn("⚠️ attachLog: Unknown runner type");
@@ -1073,7 +1071,7 @@ async function verifyInputFieldValue(page, field, expectedValue, options) {
     const { actionTimeout = Number(global_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, partialMatch = false, pattern, ignoreCase = true, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
     const resolvedExpectedValue = global_1.vars.replaceVariables(expectedValue);
     if ((0, runner_1.isPlaywrightRunner)()) {
-        await allure.step(`Web: Verify input field value -field: ${field} -value: ${resolvedExpectedValue} -options: ${JSON.stringify(options_json)}`, async () => {
+        await test_1.test.step(`Web: Verify input field value -field: ${field} -value: ${resolvedExpectedValue} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyInputFieldValue();
         });
     }
@@ -1356,7 +1354,7 @@ async function pressKey(page, key, options) {
     if (!page)
         throw new Error("Page not initialized");
     if ((0, runner_1.isPlaywrightRunner)()) {
-        await allure.step(`Web: Press Key -key: ${key} -options: ${JSON.stringify(options_json)}`, async () => {
+        await test_1.test.step(`Web: Press Key -key: ${key} -options: ${JSON.stringify(options_json)}`, async () => {
             await doPressKey();
         });
     }

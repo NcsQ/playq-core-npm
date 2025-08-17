@@ -20,10 +20,5 @@
     "**/*.test.ts",
     "playwright-tests",
     "test",
-    "src/exec/featureFileCache.ts",
-    "src/exec/featureFilePreProcess.ts",
-    "src/exec/preProcessEntry.ts",
-    "src/exec/preProcess_old_todelete.ts",
-    "src/helper/bundle/vars.bak1.ts"
   ]
 }

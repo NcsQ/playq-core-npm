@@ -2,6 +2,7 @@ import { vars, webFixture, logFixture } from "@src/global";
 import { warn } from "winston";
 import * as crypto from '../util/utilities/cryptoUtil';
 import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
+import { test as playwrightTest } from "@playwright/test";
 import * as allure from "allure-js-commons";
 import * as fs from 'fs';
 import * as path from 'path';
@@ -250,14 +251,9 @@ export async function attachLog(
       console.warn("⚠️ No World.attach() available in Cucumber context");
     }
   } else if (isPlaywrightRunner()) {
-    allure.attachment(
-      msgType,
-      message,
-      mimeType
-    );
-    // await playwrightTest
-    //   .info()
-    //   .attach("Log", { body: message, contentType: mimeType });
+    await playwrightTest
+      .info()
+      .attach(msgType || "Log", { body: message, contentType: mimeType });
   } else {
     console.warn("⚠️ attachLog: Unknown runner type");
   }

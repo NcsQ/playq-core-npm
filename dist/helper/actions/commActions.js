@@ -50,6 +50,7 @@ exports.generateTotpTokenToVariable = generateTotpTokenToVariable;
 const global_1 = require("@src/global");
 const crypto = __importStar(require("../util/utilities/cryptoUtil"));
 const runner_1 = require("@config/runner");
+const test_1 = require("@playwright/test");
 const allure = __importStar(require("allure-js-commons"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -276,10 +277,9 @@ async function attachLog(message, mimeType, msgType) {
         }
     }
     else if ((0, runner_1.isPlaywrightRunner)()) {
-        allure.attachment(msgType, message, mimeType);
-        // await playwrightTest
-        //   .info()
-        //   .attach("Log", { body: message, contentType: mimeType });
+        await test_1.test
+            .info()
+            .attach(msgType || "Log", { body: message, contentType: mimeType });
     }
     else {
         console.warn("⚠️ attachLog: Unknown runner type");

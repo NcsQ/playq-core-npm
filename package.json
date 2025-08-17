@@ -28,7 +28,7 @@
     "access": "public"
   },
   "scripts": {
-  "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "dev": "tsc -w -p tsconfig.build.json",
     "playq:test": "cross-env npx ts-node -r tsconfig-paths/register src/exec/runner.ts",
     "pretest": "npx ts-node -r tsconfig-paths/register src/scripts/pretest.ts",
@@ -52,21 +52,14 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-  "url": "https://github.com/NcsQ/playq-core.git"
+    "url": "https://github.com/NcsQ/playq-core.git"
   },
-  "devDependencies": {
-  "@types/node": "^20.12.12",
-  "typescript": "^5.6.2",
-    "@cucumber/cucumber": "^12.1.0",
+  "dependencies": {
     "@e965/xlsx": "^0.20.3",
     "@faker-js/faker": "^9.6.0",
-    "@playwright/test": "^1.53.1",
-    "@types/clipboardy": "^1.1.0",
-    "@types/qrcode": "^1.5.5",
-    "allure-playwright": "^3.3.0",
+  "allure-js-commons": "^2.15.0",
     "axios": "^1.10.0",
     "clipboardy": "^4.0.0",
-    "cross-env": "^7.0.3",
     "csv-parser": "^3.2.0",
     "dotenv": "^16.0.3",
     "fs-extra": "^11.1.1",
@@ -74,10 +67,23 @@
     "multiple-cucumber-html-reporter": "^3.3.0",
     "otplib": "^12.0.1",
     "qrcode": "^1.5.4",
-    "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "winston": "^3.8.2",
     "yargs": "^18.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0",
+  "@cucumber/cucumber": ">=12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "typescript": "^5.6.2",
+    "@playwright/test": "^1.53.1",
+    "@types/clipboardy": "^1.1.0",
+    "@types/qrcode": "^1.5.5",
+  "allure-playwright": "^3.3.0",
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }

@@ -17,15 +17,10 @@
  */
 
 import { vars, webLocResolver, webFixture, logFixture } from "@src/global";
-import {
-  Page,
-  Locator,
-  expect,
-  test as playwrightTest,
-} from "@playwright/test";
+import { Page, Locator, expect, test as playwrightTest } from "@playwright/test";
+import * as allure from "allure-js-commons";
 import { warn } from "winston";
 import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
-import * as allure from "allure-js-commons";
 import { waitInMilliSeconds } from "./commActions";
 import { parseLooseJson } from '../bundle/vars';
 const isSmartAIEnabled =
@@ -350,9 +345,7 @@ export async function attachLog(
       console.warn("⚠️ No World.attach() available in Cucumber context");
     }
   } else if (isPlaywrightRunner()) {
-    await playwrightTest
-      .info()
-      .attach("Log", { body: message, contentType: mimeType });
+    await playwrightTest.info().attach("Log", { body: message, contentType: mimeType });
   } else {
     console.warn("⚠️ attachLog: Unknown runner type");
   }
@@ -1602,7 +1595,7 @@ export async function verifyInputFieldValue(
   const resolvedExpectedValue = vars.replaceVariables(expectedValue);
 
   if (isPlaywrightRunner()) {
-    await allure.step(
+    await playwrightTest.step(
       `Web: Verify input field value -field: ${field} -value: ${resolvedExpectedValue} -options: ${JSON.stringify(
         options_json
       )}`,
@@ -2041,7 +2034,7 @@ export async function pressKey(
   if (!page) throw new Error("Page not initialized");
 
   if (isPlaywrightRunner()) {
-    await allure.step(
+    await playwrightTest.step(
       `Web: Press Key -key: ${key} -options: ${JSON.stringify(options_json)}`,
       async () => {
         await doPressKey();
