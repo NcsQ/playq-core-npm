@@ -3,7 +3,6 @@ declare module '@resources/*';
 declare module '@extend/*';
 declare module '@env/*';
 declare module '@actions';
-declare module '@playq';
 
 // Allure JS Commons minimal typings used by this project
 declare module 'allure-js-commons' {

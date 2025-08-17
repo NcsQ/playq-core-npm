@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 // import { config } from '../../resources/config';
-import { vars } from '@playq';
+import * as vars from '../helper/bundle/vars';
 
 
 const FEATURE_META_PATH = path.resolve('_Temp/.cache/featureMeta.json');

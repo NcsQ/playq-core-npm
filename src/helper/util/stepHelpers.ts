@@ -1,4 +1,4 @@
-import { vars } from '@playq';
+import * as vars from '../bundle/vars';
 
 export async function attachResolvedStep(thisArg: any, template: string) {
   const resolved = vars.replaceVariables(template);

@@ -1,6 +1,6 @@
 // src/helper/loc/locatorResolver.ts
 import { Page, Locator } from "@playwright/test";
-import { vars, engines} from "@playq";
+import * as vars from "../bundle/vars";
 // import { smartAI} from "@extend/engines/smartAi/smartAiEngine";
 
 
@@ -117,16 +117,17 @@ export async function webLocResolver(
     
     //SmartAI
     const isSmartAiEnabled = String(vars.getConfigValue('smartAi.enable')).toLowerCase().trim() === 'true';
-    if (isSmartAiEnabled) {
-      const smartAiEngine = engines.smartAi;
+    const enginesAny: any = (globalThis as any).engines;
+    if (isSmartAiEnabled && enginesAny?.smartAi) {
+      const smartAiEngine = enginesAny.smartAi;
       return await smartAiEngine(page, type, selector, smartAiRefresh);
     }
    
     // Fallback to locatorPattern (locPattern)
     const isPatternEnabled = String(vars.getConfigValue('patternIq.enable')).toLowerCase().trim() === 'true';
     console.log('PatternIQ enabled?', isPatternEnabled);
-    if (isPatternEnabled) {
-      const patternEngine = engines.patternIq;
+    if (isPatternEnabled && enginesAny?.patternIq) {
+      const patternEngine = enginesAny.patternIq;
       return await patternEngine(page, type, selector, overridePattern, timeout)
       // return isPatternEnabled
       //   ? await patternEngine(page,type, selector, overridePattern, timeout)

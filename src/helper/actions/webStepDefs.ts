@@ -1,8 +1,11 @@
-import { vars, webLocResolver, webFixture, logFixture } from "@playq";
+import * as vars from "../bundle/vars";
+import { webLocResolver } from "../fixtures/webLocFixture";
+import { webFixture } from "../fixtures/webFixture";
+import { logFixture } from "../fixtures/logFixture";
 import type { Locator, Page as page} from "@playwright/test";
 import { Given, When, Then } from "@cucumber/cucumber";
 import { warn } from "winston";
-import * as webActions from '@src/helper/actions/webActions';
+import * as webActions from './webActions';
 
 /**
  * Web: Click Button -field: {param} -options: TESTIGN COMMENTS

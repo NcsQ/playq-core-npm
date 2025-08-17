@@ -1,7 +1,7 @@
 // dataTest.ts
 import { test } from '@playwright/test';
 import { getTestData } from './dataLoader';
-import { vars } from '@playq';
+import * as vars from '../../bundle/vars';
 
 type DataSource<T> = T[] | {
   file: string;

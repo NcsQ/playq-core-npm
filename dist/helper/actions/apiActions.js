@@ -61,7 +61,8 @@ exports.verifyPathValue = verifyPathValue;
 const axios_1 = __importDefault(require("axios"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
-const _playq_1 = require("@playq");
+const vars = __importStar(require("../bundle/vars"));
+const commActions_1 = require("./commActions");
 const allure = __importStar(require("allure-js-commons"));
 const runnerType_1 = require("../util/runnerType");
 /**
@@ -120,9 +121,9 @@ const runnerType_1 = require("../util/runnerType");
  * );
  */
 async function callApi(action, config, baseUrl, options) {
-    const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
-    const { maxUrlRedirects = Number(_playq_1.vars.getConfigValue("apiTest.maxUrlRedirects")) || 5, // Axios defalt is 5
-    maxTimeout = Number(_playq_1.vars.getConfigValue("apiTest.timeout")) || 10000, auth, toNumber = undefined, toBoolean = undefined, } = options_json !== null && options_json !== void 0 ? options_json : {};
+    const options_json = typeof options === "string" ? vars.parseLooseJson(options) : options || {};
+    const { maxUrlRedirects = Number(vars.getConfigValue("apiTest.maxUrlRedirects")) || 5, // Axios defalt is 5
+    maxTimeout = Number(vars.getConfigValue("apiTest.timeout")) || 10000, auth, toNumber = undefined, toBoolean = undefined, } = options_json !== null && options_json !== void 0 ? options_json : {};
     if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Api: Call api -action: ${action} -config: ${config} -baseUrl: ${baseUrl} -options: ${JSON.stringify(options_json)}`, async () => {
             await doCallApi();
@@ -134,10 +135,10 @@ async function callApi(action, config, baseUrl, options) {
     async function doCallApi() {
         var _a, _b;
         // Dynamic import of the module
-        _playq_1.vars.setValue("internal.api.last.resStatus", "");
-        _playq_1.vars.setValue("internal.api.last.resStatusText", "");
-        _playq_1.vars.setValue("internal.api.last.resHeader", "");
-        _playq_1.vars.setValue("internal.api.last.resBody", "");
+        vars.setValue("internal.api.last.resStatus", "");
+        vars.setValue("internal.api.last.resStatusText", "");
+        vars.setValue("internal.api.last.resHeader", "");
+        vars.setValue("internal.api.last.resBody", "");
         // Resolve API module from the consumer's project resources directory
         const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
         const tsPath = path.resolve(projectRoot, `resources/api/${action}.api.ts`);
@@ -151,16 +152,16 @@ async function callApi(action, config, baseUrl, options) {
         if (!apiConfig) {
             throw new Error(`Config '${config}' not found in ${actionPath}`);
         }
-        const reqUrl = _playq_1.vars.replaceVariables(`${baseUrl}${(_a = apiConfig.path) !== null && _a !== void 0 ? _a : ""}`);
-        const reqMethod = _playq_1.vars.replaceVariables((_b = apiConfig.method) !== null && _b !== void 0 ? _b : "");
+        const reqUrl = vars.replaceVariables(`${baseUrl}${(_a = apiConfig.path) !== null && _a !== void 0 ? _a : ""}`);
+        const reqMethod = vars.replaceVariables((_b = apiConfig.method) !== null && _b !== void 0 ? _b : "");
         const reqHeaders = apiConfig.headers
-            ? JSON.parse(_playq_1.vars.replaceVariables(JSON.stringify(apiConfig.headers)))
+            ? JSON.parse(vars.replaceVariables(JSON.stringify(apiConfig.headers)))
             : {};
         const reqBody = apiConfig.body
-            ? JSON.parse(_playq_1.vars.replaceVariables(JSON.stringify(apiConfig.body)))
+            ? JSON.parse(vars.replaceVariables(JSON.stringify(apiConfig.body)))
             : undefined;
         const reqParams = apiConfig.params
-            ? JSON.parse(_playq_1.vars.replaceVariables(JSON.stringify(apiConfig.params)))
+            ? JSON.parse(vars.replaceVariables(JSON.stringify(apiConfig.params)))
             : undefined;
         if (toNumber)
             convertJsonNodes(reqBody, "toNumber", toNumber);
@@ -193,10 +194,10 @@ async function callApi(action, config, baseUrl, options) {
         const resStatusText = (await response).statusText;
         const resHeader = JSON.stringify((await response).headers);
         const resBody = JSON.stringify((await response).data);
-        _playq_1.vars.setValue("playq.api.last.resStatus", resStatus);
-        _playq_1.vars.setValue("playq.api.last.resStatusText", resStatusText);
-        _playq_1.vars.setValue("playq.api.last.resHeader", resHeader);
-        _playq_1.vars.setValue("playq.api.last.resBody", resBody);
+        vars.setValue("playq.api.last.resStatus", resStatus);
+        vars.setValue("playq.api.last.resStatusText", resStatusText);
+        vars.setValue("playq.api.last.resHeader", resHeader);
+        vars.setValue("playq.api.last.resBody", resBody);
         // This console is to show the api response.
         console.log("API Response:", {
             status: resStatus,
@@ -217,7 +218,7 @@ async function callApi(action, config, baseUrl, options) {
 
  */
 async function getLastResponseJsonPathValue(path) {
-    const resBody = _playq_1.vars.getValue("playq.api.last.resBody");
+    const resBody = vars.getValue("playq.api.last.resBody");
     if (!resBody)
         return undefined;
     const json = JSON.parse(resBody);
@@ -251,10 +252,10 @@ async function getLastResponseJsonPathValue(path) {
  */
 async function storeLastResponseJsonPathsToVariables(pathVarString, varKeyString) {
     var _a, _b;
-    const resBody = _playq_1.vars.getValue("playq.api.last.resBody");
-    const resHeader = _playq_1.vars.getValue("playq.api.last.resHeader");
-    const resStatus = _playq_1.vars.getValue("playq.api.last.resStatus");
-    const resStatusText = _playq_1.vars.getValue("playq.api.last.resStatusText");
+    const resBody = vars.getValue("playq.api.last.resBody");
+    const resHeader = vars.getValue("playq.api.last.resHeader");
+    const resStatus = vars.getValue("playq.api.last.resStatus");
+    const resStatusText = vars.getValue("playq.api.last.resStatusText");
     if (!resBody && !resHeader && !resStatus && !resStatusText)
         return;
     const jsonBody = resBody ? JSON.parse(resBody) : {};
@@ -311,7 +312,7 @@ async function storeLastResponseJsonPathsToVariables(pathVarString, varKeyString
             }
         }
         if (result !== undefined && result !== null) {
-            _playq_1.vars.setValue(varKey, result.toString());
+            vars.setValue(varKey, result.toString());
         }
     }
 }
@@ -324,9 +325,9 @@ async function storeLastResponseJsonPathsToVariables(pathVarString, varKeyString
  * @param message - Optional. Custom error message on failure.
  */
 async function verifyValue(actual, expected, options) {
-    const resolvedActual = _playq_1.vars.replaceVariables(String(actual));
-    const resolvedExpected = _playq_1.vars.replaceVariables(expected);
-    const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
+    const resolvedActual = vars.replaceVariables(String(actual));
+    const resolvedExpected = vars.replaceVariables(expected);
+    const options_json = typeof options === "string" ? vars.parseLooseJson(options) : options || {};
     const { assert = true, partial_text = false } = options_json;
     if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Api: Verify value -actual: ${resolvedActual} -expected: ${resolvedExpected} -options: ${JSON.stringify(options_json)}`, async () => {
@@ -369,14 +370,14 @@ async function verifyValue(actual, expected, options) {
  * @param options - Optional. Supports { assert: boolean, partial_text: boolean }
  */
 async function verifyPathValue(path, expected, options) {
-    const resolvedExpected = _playq_1.vars.replaceVariables(expected);
-    const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
+    const resolvedExpected = vars.replaceVariables(expected);
+    const options_json = typeof options === "string" ? vars.parseLooseJson(options) : options || {};
     const { assert = true, partial_text = false } = options_json;
     const sources = {
-        body: _playq_1.vars.getValue("playq.api.last.resBody"),
-        header: _playq_1.vars.getValue("playq.api.last.resHeader"),
-        status: _playq_1.vars.getValue("playq.api.last.resStatus"),
-        statusText: _playq_1.vars.getValue("playq.api.last.resStatusText")
+        body: vars.getValue("playq.api.last.resBody"),
+        header: vars.getValue("playq.api.last.resHeader"),
+        status: vars.getValue("playq.api.last.resStatus"),
+        statusText: vars.getValue("playq.api.last.resStatusText")
     };
     let actual;
     let allureMsg = "";
@@ -401,7 +402,7 @@ async function verifyPathValue(path, expected, options) {
                     throw new Error(`Verification failed (partial_text): expected '${actual}' to include '${resolvedExpected}'`);
             }
             else {
-                await _playq_1.comm.attachLog(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`, "text/plain", "Verification Details");
+                await (0, commActions_1.attachLog)(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`, "text/plain", "Verification Details");
                 console.assert(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`);
             }
             return;
@@ -414,7 +415,7 @@ async function verifyPathValue(path, expected, options) {
                 throw new Error(`Verification failed: expected '${resolvedExpected}', but got '${actual}'`);
         }
         else {
-            await _playq_1.comm.attachLog(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`, "text/plain", "Verification Details");
+            await (0, commActions_1.attachLog)(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`, "text/plain", "Verification Details");
             console.assert(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`);
         }
     }

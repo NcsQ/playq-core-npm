@@ -1,4 +1,4 @@
-import { vars } from "@playq";
+import * as vars from "../helper/bundle/vars";
 
 // Loading D365 CRM pattern
 const d365CrmEnable = vars.getConfigValue('addons.d365Crm.enable').toLowerCase().trim()  === 'true';

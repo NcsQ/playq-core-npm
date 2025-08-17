@@ -1,7 +1,7 @@
 // src/helper/report/allureStepLogger.ts
 // import { step, attachment, owner, issue } from 'allure-js-commons';
-// import { isCucumberRunner } from '@config/runner';
-// import { webFixture } from '@helper/fixtures/webFixture';
+// import { isCucumberRunner } from '../util/runnerType';
+// import { webFixture } from '../fixtures/webFixture';
 
 // /**
 //  * Logs a step to Allure or attaches it in Cucumber world.

@@ -1,5 +1,6 @@
 import * as readline from 'readline';
-import { comm, vars } from "@playq";
+import * as vars from "../helper/bundle/vars";
+import * as comm from "../helper/actions/commActions";
 import * as clipboardy from 'clipboardy';
 import * as crypto from 'crypto';
 import { TOTPHelper } from '../helper/util/totp/totpHelper';

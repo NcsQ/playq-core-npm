@@ -1,8 +1,11 @@
-import { vars, webLocResolver, webFixture, logFixture } from "@playq";
+import * as vars from "../bundle/vars";
+import { webLocResolver } from "../fixtures/webLocFixture";
+import { webFixture } from "../fixtures/webFixture";
+import { logFixture } from "../fixtures/logFixture";
 import type { Locator } from "@playwright/test";
 import { Given, When, Then } from "@cucumber/cucumber";
 import { warn } from "winston";
-import { isCucumberRunner, isPlaywrightRunner } from '@config/runner';
+import { isCucumberRunner, isPlaywrightRunner } from '../util/runnerType';
 
 // // Given("Web: I open web browser with {param}", async function (url) {
 // //   await web.goto(url);

@@ -1,6 +1,6 @@
 {
   "name": "@ncsq/playq-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "End-to-end PlayQ Automation Framework for Web and API",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -29,7 +29,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+  "build": "rimraf dist && tsc -p tsconfig.build.json && node scripts/check-dist-aliases.js",
+  "check:dist": "node scripts/check-dist-aliases.js",
     "dev": "tsc -w -p tsconfig.build.json",
     "playq:test": "cross-env npx ts-node -r tsconfig-paths/register src/exec/runner.ts",
     "pretest": "npx ts-node -r tsconfig-paths/register src/scripts/pretest.ts",

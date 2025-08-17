@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@cucumber/cucumber";
 import { warn } from "winston";
-import { comm } from "@playq";
+import * as comm from "./commActions";
 
 Given("Comm: Wait-In-Milli-Seconds -seconds: {param}", async function (seconds) {
   await comm.waitInMilliSeconds(parseInt(seconds));

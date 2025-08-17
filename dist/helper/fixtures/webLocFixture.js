@@ -1,7 +1,40 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.webLocResolver = webLocResolver;
-const _playq_1 = require("@playq");
+const vars = __importStar(require("../bundle/vars"));
 // import { smartAI} from "@extend/engines/smartAi/smartAiEngine";
 async function webLocResolver(type, selector, pageArg, overridePattern, timeout, smartAiRefresh = '') {
     var _a, _b, _c, _d;
@@ -58,7 +91,7 @@ async function webLocResolver(type, selector, pageArg, overridePattern, timeout,
             if (!locatorString)
                 throw new Error(`❌ Field "${fieldName}" not found in ${fileName}.json[${pageName}]`);
             console.log(`🧩 Resolved locator string from loc.json.${fileName}.${pageName}.${fieldName} -> ${locatorString}`);
-            return page.locator(await _playq_1.vars.replaceVariables(locatorString));
+            return page.locator(await vars.replaceVariables(locatorString));
         }
         if (selector.startsWith("loc.ts.")) {
             const [, , fileName, pageName, fieldName] = selector.split(".");
@@ -85,16 +118,17 @@ async function webLocResolver(type, selector, pageArg, overridePattern, timeout,
         return undefined; // or even better, throw a custom signal or null to trigger fallback
     }
     //SmartAI
-    const isSmartAiEnabled = String(_playq_1.vars.getConfigValue('smartAi.enable')).toLowerCase().trim() === 'true';
-    if (isSmartAiEnabled) {
-        const smartAiEngine = _playq_1.engines.smartAi;
+    const isSmartAiEnabled = String(vars.getConfigValue('smartAi.enable')).toLowerCase().trim() === 'true';
+    const enginesAny = globalThis.engines;
+    if (isSmartAiEnabled && (enginesAny === null || enginesAny === void 0 ? void 0 : enginesAny.smartAi)) {
+        const smartAiEngine = enginesAny.smartAi;
         return await smartAiEngine(page, type, selector, smartAiRefresh);
     }
     // Fallback to locatorPattern (locPattern)
-    const isPatternEnabled = String(_playq_1.vars.getConfigValue('patternIq.enable')).toLowerCase().trim() === 'true';
+    const isPatternEnabled = String(vars.getConfigValue('patternIq.enable')).toLowerCase().trim() === 'true';
     console.log('PatternIQ enabled?', isPatternEnabled);
-    if (isPatternEnabled) {
-        const patternEngine = _playq_1.engines.patternIq;
+    if (isPatternEnabled && (enginesAny === null || enginesAny === void 0 ? void 0 : enginesAny.patternIq)) {
+        const patternEngine = enginesAny.patternIq;
         return await patternEngine(page, type, selector, overridePattern, timeout);
         // return isPatternEnabled
         //   ? await patternEngine(page,type, selector, overridePattern, timeout)

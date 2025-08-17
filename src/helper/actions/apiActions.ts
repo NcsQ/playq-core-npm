@@ -20,7 +20,8 @@ import axios from "axios";
 import type { AxiosResponse } from "axios";
 import * as path from "path";
 import * as fs from "fs";
-import { vars,comm } from "@playq";
+import * as vars from "../bundle/vars";
+import { attachLog } from "./commActions";
 import * as allure from "allure-js-commons";
 import { isCucumberRunner, isPlaywrightRunner } from "../util/runnerType";
 
@@ -336,7 +337,7 @@ export async function verifyValue(actual: any, expected: string, options?: strin
       }
       return;
     }
-    if (resolvedActual !== resolvedExpected) {
+  if (resolvedActual !== resolvedExpected) {
       console.warn(`❌ Verification failed: expected: '${resolvedExpected}', actual: '${resolvedActual}'`);
       if (assert) throw new Error(`Verification failed: expected '${resolvedExpected}', but got '${resolvedActual}'`);
     } else {
@@ -392,7 +393,7 @@ export async function verifyPathValue(path: string, expected: string, options?: 
         console.warn(`❌ Verification failed (partial_text): expected '${actual}' to include '${resolvedExpected}'`);
         if (assert) throw new Error(`Verification failed (partial_text): expected '${actual}' to include '${resolvedExpected}'`);
       } else {
-        await comm.attachLog(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`, "text/plain", "Verification Details");
+  await attachLog(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`, "text/plain", "Verification Details");
         console.assert(`✅ Verification passed (partial_text): expected '${actual}' to include '${resolvedExpected}'`);
       }
       return;
@@ -405,7 +406,7 @@ export async function verifyPathValue(path: string, expected: string, options?: 
       console.warn(`❌ Verification failed: expected: '${resolvedExpected}', actual: '${actual}'`);
       if (assert) throw new Error(`Verification failed: expected '${resolvedExpected}', but got '${actual}'`);
     } else {
-      await comm.attachLog(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`, "text/plain", "Verification Details");
+  await attachLog(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`, "text/plain", "Verification Details");
       console.assert(`✅ Verification passed: expected: '${resolvedExpected}', actual: '${actual}'`);
     }
   }

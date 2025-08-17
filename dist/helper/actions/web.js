@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _playq_1 = require("@playq");
-const runner_1 = require("@config/runner");
+const webFixture_1 = require("../fixtures/webFixture");
+const runnerType_1 = require("../util/runnerType");
 // // Given("Web: I open web browser with {param}", async function (url) {
 // //   await web.goto(url);
 // // });
@@ -64,10 +64,10 @@ class WebActions {
     // }
     async throwErrorAndAttach(message) {
         console.error(`${message}`);
-        if (runner_1.isCucumberRunner && this.attachFn) {
+        if (runnerType_1.isCucumberRunner && this.attachFn) {
             await this.attachFn(`- ${message}`, "text/plain");
         }
-        else if (runner_1.isPlaywrightRunner) {
+        else if (runnerType_1.isPlaywrightRunner) {
             console.warn(`⚠️ Playwright Runner: attachment skipped for message: ${message}`);
         }
         else {
@@ -88,7 +88,7 @@ class WebActions {
         this.attachFn = fn;
     }
     async captureAndAttachScreenshot(message) {
-        const page = _playq_1.webFixture.getCurrentPage();
+        const page = webFixture_1.webFixture.getCurrentPage();
         if (page) {
             const screenshot = await page.screenshot();
             await this.attachFn(screenshot, "image/png");

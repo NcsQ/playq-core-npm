@@ -35,7 +35,8 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.encryptUserInput = encryptUserInput;
 const readline = __importStar(require("readline"));
-const _playq_1 = require("@playq");
+const vars = __importStar(require("../helper/bundle/vars"));
+const comm = __importStar(require("../helper/actions/commActions"));
 const clipboardy = __importStar(require("clipboardy"));
 const crypto = __importStar(require("crypto"));
 const totpHelper_1 = require("../helper/util/totp/totpHelper");
@@ -158,7 +159,7 @@ async function encryptPassword() {
     }
     try {
         console.log('🔄 Encrypting password...');
-        encryptedValue = await _playq_1.comm.encryptPassword(passwordText);
+        encryptedValue = await comm.encryptPassword(passwordText);
         console.log('\n📋 🔐 Encrypted Password Result:');
         console.log('='.repeat(50));
         console.log(encryptedValue);
@@ -176,7 +177,7 @@ async function encryptText() {
     }
     try {
         console.log('🔄 Encrypting text...');
-        encryptedValue = await _playq_1.comm.encryptText(encryptText);
+        encryptedValue = await comm.encryptText(encryptText);
         console.log('\n📋 🔐 Encrypted Text Result:');
         console.log('='.repeat(50));
         console.log(encryptedValue);
@@ -194,7 +195,7 @@ async function decrypt() {
     }
     try {
         console.log('🔄 Decrypting text...');
-        encryptedValue = await _playq_1.vars.replaceVariables('#{' + decryptText + '}');
+        encryptedValue = await vars.replaceVariables('#{' + decryptText + '}');
         console.log('\n📋 🔓 Decrypted Text Result:');
         console.log('='.repeat(50));
         console.log(encryptedValue);
@@ -229,7 +230,7 @@ async function generateTotpCode() {
             secretKey = inputSecret;
         }
         if (secretKey.startsWith("enc.")) {
-            secretKey = _playq_1.vars.replaceVariables(`#{${secretKey}}`);
+            secretKey = vars.replaceVariables(`#{${secretKey}}`);
         }
         // const secret = crypto.randomBytes(20).toString('hex');
         const totpHelper = new totpHelper_1.TOTPHelper(secretKey);

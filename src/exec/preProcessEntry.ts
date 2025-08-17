@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { sync } from 'glob';
 // import { config } from '../../resources/config';
-import { vars } from "@playq";
+import * as vars from "../helper/bundle/vars";
 
 import { generateStepGroupsIfNeeded } from './sgGenerator';
 import {

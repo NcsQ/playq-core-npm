@@ -1,4 +1,4 @@
-import { vars } from "@playq";
+import * as vars from "../helper/bundle/vars";
 import fs from "fs";
 import path from "path";
 import xlsx from "@e965/xlsx";

@@ -47,7 +47,9 @@ exports.toDollarAmount = toDollarAmount;
 exports.attachLog = attachLog;
 exports.storeValue = storeValue;
 exports.generateTotpTokenToVariable = generateTotpTokenToVariable;
-const _playq_1 = require("@playq");
+const vars = __importStar(require("../bundle/vars"));
+const webFixture_1 = require("../fixtures/webFixture");
+const logFixture_1 = require("../fixtures/logFixture");
 const crypto = __importStar(require("../util/utilities/cryptoUtil"));
 const runnerType_1 = require("../util/runnerType");
 const test_1 = require("@playwright/test");
@@ -69,7 +71,7 @@ const totpHelper_1 = require("../util/totp/totpHelper");
  */
 async function waitInMilliSeconds(ms) {
     var _a, _b;
-    const logger = (_a = _playq_1.logFixture.getLogger) === null || _a === void 0 ? void 0 : _a.call(_playq_1.logFixture);
+    const logger = (_a = logFixture_1.logFixture.getLogger) === null || _a === void 0 ? void 0 : _a.call(logFixture_1.logFixture);
     (_b = logger === null || logger === void 0 ? void 0 : logger.info) === null || _b === void 0 ? void 0 : _b.call(logger, `⏳ Waiting for ${ms} ms`);
     await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -87,7 +89,7 @@ async function waitInMilliSeconds(ms) {
  * Comm: Comment -text: "LAMBDA TEST COMPLETE"
  */
 async function comment(message) {
-    let formattedMessage = _playq_1.vars.replaceVariables(message);
+    let formattedMessage = vars.replaceVariables(message);
     console.log(`💬 Comment: ${formattedMessage}`);
 }
 /**
@@ -136,7 +138,7 @@ async function encryptPasswordAndStore(encryptText, varNameToStore, options) {
     const options_json = typeof options === 'string' ? (0, vars_1.parseLooseJson)(options) : (options || {});
     let encryptedText = crypto.encrypt(encryptText);
     console.log('🔐 Encrypted Text:', 'pwd.' + encryptedText);
-    _playq_1.vars.setValue(varNameToStore, 'pwd.' + encryptedText);
+    vars.setValue(varNameToStore, 'pwd.' + encryptedText);
 }
 /**
  * Comm: Encrypt -text: {param} and store in -variable: {param} -options: {param}
@@ -152,7 +154,7 @@ async function encryptTextAndStore(encryptText, varNameToStore, options) {
     const options_json = typeof options === 'string' ? (0, vars_1.parseLooseJson)(options) : (options || {});
     let encryptedText = crypto.encrypt(encryptText);
     console.log('🔐 Encrypted Text:', 'enc.' + encryptedText);
-    _playq_1.vars.setValue(varNameToStore, 'enc.' + encryptedText);
+    vars.setValue(varNameToStore, 'enc.' + encryptedText);
 }
 /**
  * Comm: Decrypt -text: {param} and store in -variable: {param} -options: {param}
@@ -167,7 +169,7 @@ async function encryptTextAndStore(encryptText, varNameToStore, options) {
 async function decrypt(encryptedText, varName, options) {
     const options_json = typeof options === 'string' ? (0, vars_1.parseLooseJson)(options) : (options || {});
     let decryptedText = crypto.decrypt(encryptedText);
-    _playq_1.vars.setValue(varName, decryptedText);
+    vars.setValue(varName, decryptedText);
 }
 /**
  * Comm: Get-Random-From-List -arrayList: {param}
@@ -268,7 +270,7 @@ async function attachLog(message, mimeType, msgType) {
     if (!msgType)
         msgType = "";
     if ((0, runnerType_1.isCucumberRunner)()) {
-        const world = _playq_1.webFixture.getWorld();
+        const world = webFixture_1.webFixture.getWorld();
         if (world === null || world === void 0 ? void 0 : world.attach) {
             await world.attach(message, mimeType);
         }
@@ -301,8 +303,8 @@ async function attachLog(message, mimeType, msgType) {
  */
 async function storeValue(value, varName, options) {
     const options_json = typeof options === 'string' ? (0, vars_1.parseLooseJson)(options) : (options || {});
-    const resolvedValue = _playq_1.vars.replaceVariables(value);
-    _playq_1.vars.setValue(varName, resolvedValue);
+    const resolvedValue = vars.replaceVariables(value);
+    vars.setValue(varName, resolvedValue);
 }
 /**
  * Comm: Generate TOTP Token to variable -varName: {param} -options: {param}
@@ -317,7 +319,7 @@ async function storeValue(value, varName, options) {
  * Comm: Generate TOTP Token to variable -varName: "var.otp" -options: '{"secret":"MYSECRET"}'
  */
 async function generateTotpTokenToVariable(varName, options) {
-    const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
+    const options_json = typeof options === "string" ? vars.parseLooseJson(options) : options || {};
     const { secret, step = 30, digits = 6, algorithm = "SHA-1" } = options_json;
     if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Comm: Generate TOTP Token to variable -varName: ${varName} -options: ${JSON.stringify(options_json)}`, async () => {
@@ -333,12 +335,12 @@ async function generateTotpTokenToVariable(varName, options) {
             throw new Error('❌ PLAYQ_TOTP_SECRET_KEY not found in environment variables or in options');
         }
         if (secretKey.startsWith("enc.")) {
-            secretKey = _playq_1.vars.replaceVariables(`#{${secretKey}}`);
+            secretKey = vars.replaceVariables(`#{${secretKey}}`);
         }
         const totpHelper = new totpHelper_1.TOTPHelper(secretKey);
         // Generate and return token
         const token = totpHelper.generateToken();
-        _playq_1.vars.setValue(varName, token);
+        vars.setValue(varName, token);
     }
 }
 //# sourceMappingURL=commActions.js.map

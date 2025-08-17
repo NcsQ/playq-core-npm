@@ -3,7 +3,7 @@ import { loadEnv } from '../helper/bundle/env';
 import path from 'path';
 import { rmSync } from 'fs';
 const { execSync } = require('child_process');
-import {vars} from '@playq'
+import * as vars from '../helper/bundle/vars'
 
 
 export function executePostTest() {

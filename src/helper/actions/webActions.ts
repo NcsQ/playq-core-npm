@@ -16,7 +16,10 @@
  * Note: This file adheres to the PlayQ Enterprise Automation Standards.
  */
 
-import { vars, webLocResolver, webFixture, logFixture } from "@playq";
+import * as vars from "../bundle/vars";
+import { webLocResolver } from "../fixtures/webLocFixture";
+import { webFixture } from "../fixtures/webFixture";
+import { logFixture } from "../fixtures/logFixture";
 import { Page, Locator, expect, test as playwrightTest } from "@playwright/test";
 import * as allure from "allure-js-commons";
 import { warn } from "winston";
