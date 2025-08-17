@@ -16,7 +16,8 @@
     }
   },
   "bin": {
-    "playq": "bin/playq.js"
+  "playq": "bin/playq.js",
+  "playq-util": "bin/playq-util.js"
   },
   "files": [
     "dist/**",
