@@ -8,6 +8,8 @@ export declare const webFixture: {
     getBrowser(): Browser;
     getContext(): BrowserContext;
     getCurrentPage(): Page | undefined;
+    hasCurrentPage(): boolean;
+    requireCurrentPage(): Page;
     setCurrentPage(name: string): void;
     closeContext(): Promise<void>;
     closeAll(): Promise<void>;
@@ -16,5 +18,10 @@ export declare const webFixture: {
     setPlaywrightPage(page: Page): void;
     getSmartIQData(): any[];
     setSmartIQData(data: any[]): void;
+    /**
+     * Convenience helper to fetch the current page's recorded video path if available.
+     * Returns null when video recording is disabled or page/context not initialized.
+     */
+    getCurrentPageVideoPath(): Promise<string | null>;
 };
 //# sourceMappingURL=webFixture.d.ts.map

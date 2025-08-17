@@ -49,6 +49,17 @@ export const webFixture = {
   getCurrentPage(): Page | undefined {
     return currentPage;
   },
+  hasCurrentPage(): boolean {
+    return !!currentPage;
+  },
+  requireCurrentPage(): Page {
+    if (!currentPage) {
+      throw new Error(
+        '❌ No current Page set. Launch a context and open a page first (webFixture.newContext()/newPage()), or call webFixture.setPlaywrightPage(page) in your test setup.'
+      );
+    }
+    return currentPage;
+  },
   setCurrentPage(name: string) {
     currentPage = pages.get(name);
     currentPageName = name;
@@ -87,6 +98,20 @@ export const webFixture = {
   
   setSmartIQData(data: any[]) {
     smartIQData = data;
+  },
+  /**
+   * Convenience helper to fetch the current page's recorded video path if available.
+   * Returns null when video recording is disabled or page/context not initialized.
+   */
+  async getCurrentPageVideoPath(): Promise<string | null> {
+    if (!currentPage) return null;
+    const v = currentPage.video?.();
+    if (!v) return null;
+    try {
+      return await v.path();
+    } catch {
+      return null;
+    }
   }
 };
 
