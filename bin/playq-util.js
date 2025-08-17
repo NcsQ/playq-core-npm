@@ -15,6 +15,20 @@ function resolveFromPackage(relative) {
   const tsEntry = resolveFromPackage('src/scripts/util.ts');
 
   if (fs.existsSync(distEntry)) {
+    // Register minimal path aliases for runtime (compiled JS)
+    try {
+      const tsconfigPaths = require('tsconfig-paths');
+      tsconfigPaths.register({
+        baseUrl: resolveFromPackage('.'),
+        paths: {
+          '@playq': ['dist/global'],
+          '@src/*': ['dist/*'],
+          '@config/runner': ['dist/helper/util/runnerType']
+        }
+      });
+    } catch (e) {
+      // If tsconfig-paths is unavailable, proceed; relative imports will still work.
+    }
     require(distEntry);
     return;
   }
