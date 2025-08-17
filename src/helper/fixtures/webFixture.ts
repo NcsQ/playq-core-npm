@@ -22,6 +22,13 @@ export const webFixture = {
   async launchBrowser() {
     browser = await invokeBrowser();
   },
+  /**
+   * Take a screenshot of the current page. Throws if no page is set.
+   */
+  async screenshotCurrentPage(options?: Parameters<Page['screenshot']>[0]) {
+    const page = this.requireCurrentPage();
+    return page.screenshot(options as any);
+  },
   async newContext(options?: Parameters<Browser["newContext"]>[0]) {
     if (!options) {
         options = {

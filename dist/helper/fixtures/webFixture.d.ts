@@ -3,6 +3,10 @@ export declare const webFixture: {
     pages: Map<string, Page>;
     frames: Map<string, Frame>;
     launchBrowser(): Promise<void>;
+    /**
+     * Take a screenshot of the current page. Throws if no page is set.
+     */
+    screenshotCurrentPage(options?: Parameters<Page["screenshot"]>[0]): Promise<any>;
     newContext(options?: Parameters<Browser["newContext"]>[0]): Promise<BrowserContext>;
     newPage(name?: string): Promise<Page>;
     getBrowser(): Browser;
