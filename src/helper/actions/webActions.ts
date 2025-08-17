@@ -20,7 +20,7 @@ import { vars, webLocResolver, webFixture, logFixture } from "@playq";
 import { Page, Locator, expect, test as playwrightTest } from "@playwright/test";
 import * as allure from "allure-js-commons";
 import { warn } from "winston";
-import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
+import { isCucumberRunner, isPlaywrightRunner } from "../util/runnerType";
 import { waitInMilliSeconds } from "./commActions";
 import { parseLooseJson } from '../bundle/vars';
 const isSmartAIEnabled =

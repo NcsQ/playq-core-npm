@@ -79,7 +79,7 @@ exports.takeScreenshot = takeScreenshot;
 const _playq_1 = require("@playq");
 const test_1 = require("@playwright/test");
 const allure = __importStar(require("allure-js-commons"));
-const runner_1 = require("@config/runner");
+const runnerType_1 = require("../util/runnerType");
 const commActions_1 = require("./commActions");
 const vars_1 = require("../bundle/vars");
 const isSmartAIEnabled = String(_playq_1.vars.getConfigValue("smartAI.enable")).toLowerCase().trim() === "true";
@@ -166,7 +166,7 @@ async function waitForTextAtLocation(page, field, expectedText, options) {
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 10000, partialMatch = false, ignoreCase = true, screenshot = false, screenshotText = "", screenshotFullPage = true, pattern, } = options_json;
     if (!page)
         throw new Error("Page not initialized");
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Wait for Text at Location -field: ${field} -text: ${expectedText} -options: ${JSON.stringify(options_json)}`, async () => {
             await doWaitForTextAtLocation();
         });
@@ -237,7 +237,7 @@ async function waitForHeader(page, header, headerText, options) {
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, partialMatch = false, ignoreCase = true, pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, } = options_json;
     if (!page)
         throw new Error("Page not initialized");
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Wait for Header -header: ${header} -text: ${resolvedHeaderText} -options: ${JSON.stringify(options_json)}`, async () => {
             await doWaitForHeader();
         });
@@ -298,7 +298,7 @@ async function waitForHeader(page, header, headerText, options) {
  * @param mimeType The mime type (default: text/plain)
  */
 async function attachLog(message, mimeType = "text/plain") {
-    if ((0, runner_1.isCucumberRunner)()) {
+    if ((0, runnerType_1.isCucumberRunner)()) {
         const world = _playq_1.webFixture.getWorld();
         if (world === null || world === void 0 ? void 0 : world.attach) {
             await world.attach(message, mimeType);
@@ -307,7 +307,7 @@ async function attachLog(message, mimeType = "text/plain") {
             console.warn("⚠️ No World.attach() available in Cucumber context");
         }
     }
-    else if ((0, runner_1.isPlaywrightRunner)()) {
+    else if ((0, runnerType_1.isPlaywrightRunner)()) {
         await test_1.test.info().attach("Log", { body: message, contentType: mimeType });
     }
     else {
@@ -345,7 +345,7 @@ async function openBrowser(page, url, options) {
     let resolvedUrl = _playq_1.vars.replaceVariables(url);
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { screenshot = false, screenshotText = "", screenshotFullPage = true, } = options_json !== null && options_json !== void 0 ? options_json : {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Open browser -url: ${resolvedUrl} -options: ${JSON.stringify(options_json)}`, async () => {
             await doOpenBrowser();
         });
@@ -378,7 +378,7 @@ async function navigateByPath(page, relativePath, options) {
     let resolvedRelativePath = _playq_1.vars.getValue(relativePath);
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { screenshot = false, screenshotText = "", screenshotFullPage = true, } = options_json !== null && options_json !== void 0 ? options_json : {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Navigate by Path -relativePath: ${relativePath} -options: ${JSON.stringify(options_json)}`, async () => {
             await doNavigateByPath();
         });
@@ -423,7 +423,7 @@ async function fill(page, field, value, options) {
         throw new Error("Page not initialized");
     const { iframe = "", actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, // Default timeout
     pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotField = false, smartIQ_refreshLoc = "", } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Fill -field: ${field} -value: ${value} -options: ${JSON.stringify(options_json)}`, async () => {
             await doFill();
         });
@@ -476,7 +476,7 @@ exports.enter = fill;
 async function clickButton(page, field, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout") || 10000), pattern, isDoubleClick = false, screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotBefore = false, } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Click Button -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doClickButton();
         });
@@ -517,7 +517,7 @@ async function clickLink(page, field, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout") || 10000), // Default timeout
     pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotBefore = false, } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Click Link -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doClickLink();
         });
@@ -558,7 +558,7 @@ async function clickTab(page, field, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout") || 10000), // Default timeout
     pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotBefore = false, } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Click Link -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doClickTab();
         });
@@ -601,7 +601,7 @@ async function clickRadioButton(page, field, options) {
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, // Default timeout
     pattern, force = true, // Playwright's force option
     screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotBefore = false, smartIQ_refreshLoc = "", } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Click radio button -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doClickRadioButton();
         });
@@ -643,7 +643,7 @@ async function clickCheckbox(page, field, options) {
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, // Default timeout
     pattern, force = true, // Playwright's force option
     screenshot = false, screenshotText = "", screenshotFullPage = true, screenshotBefore = false, smartIQ_refreshLoc = "", } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Click radio button -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doClickCheckbox();
         });
@@ -686,7 +686,7 @@ async function selectDropdown(page, field, value, options) {
         : "";
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout, pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, smartIQ_refreshLoc = "", } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Select Dropdown -field: ${field} -value: ${resolvedValue} -options: ${JSON.stringify(options_json)}`, async () => {
             await doSelectDropdown();
         });
@@ -751,7 +751,7 @@ async function mouseoverOnLink(page, field, options) {
     const resolvedField = typeof field === "string" ? _playq_1.vars.replaceVariables(field) : undefined;
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout, pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, } = options_json || {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Mouseover on link -field: ${resolvedField || field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doMouseoverOnLink();
         });
@@ -796,7 +796,7 @@ async function verifyHeaderText(page, expectedText, options) {
     let resolved_expectedText = _playq_1.vars.replaceVariables(expectedText);
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout") || 10000), navigationTimeout = Number(_playq_1.vars.getConfigValue("testExecution.navigationTimeout") || 20000), partialMatch = false, ignoreCase = false, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Verify header -text: ${resolved_expectedText} -options: ${JSON.stringify(options_json)}`, async () => {
             await doverifyHeaderText();
         });
@@ -865,7 +865,7 @@ async function verifyTextOnPage(page, text, options) {
     const resolvedText = _playq_1.vars.replaceVariables(text);
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, partialMatch = false, ignoreCase = false, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Verify text on page -text: ${resolvedText} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyTextOnPage();
         });
@@ -921,7 +921,7 @@ async function verifyTextAtLocation(page, field, expectedText, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, partialMatch = false, pattern, ignoreCase = true, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
     const resolvedExpectedValue = _playq_1.vars.replaceVariables(expectedText);
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Verify text at location -field: ${field} -value: ${resolvedExpectedValue} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyTextAtLocation();
         });
@@ -982,7 +982,7 @@ async function verifyTextAtLocation(page, field, expectedText, options) {
 async function verifyPageTitle(page, expectedTitle, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { partialMatch = false, ignoreCase = false, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Verify page title -text: ${expectedTitle} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyPageTitle();
         });
@@ -1070,7 +1070,7 @@ async function verifyInputFieldValue(page, field, expectedValue, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, partialMatch = false, pattern, ignoreCase = true, assert = true, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
     const resolvedExpectedValue = _playq_1.vars.replaceVariables(expectedValue);
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await test_1.test.step(`Web: Verify input field value -field: ${field} -value: ${resolvedExpectedValue} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyInputFieldValue();
         });
@@ -1132,7 +1132,7 @@ async function verifyInputFieldValue(page, field, expectedValue, options) {
 async function verifyTabField(page, field, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, pattern, assert = true, isPresent = true, isEnabled = false, isSelected = false, isNotSelected = false, screenshot = true, screenshotText = "", screenshotFullPage = true, } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(` Web: Verify Tab field Present -field: ${field} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyTabField();
         });
@@ -1259,7 +1259,7 @@ async function verifyToastTextContains(page, text, options) {
 async function waitForInputState(page, field, state, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout") || 30000), pattern, screenshot = false, screenshotText = "", screenshotFullPage = true, smartIQ_refreshLoc = "", } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Wait for Input -field: ${field} -state: ${state} (enabled or disabled) -options: ${JSON.stringify(options_json)}`, async () => {
             await doWaitForInputState();
         });
@@ -1307,7 +1307,7 @@ async function waitForInputState(page, field, state, options) {
 async function waitForUrl(page, url, options) {
     const options_json = typeof options === "string" ? (0, vars_1.parseLooseJson)(options) : options || {};
     const { actionTimeout = Number(_playq_1.vars.getConfigValue("testExecution.actionTimeout")) || 30000, match = "contains", screenshot = false, screenshotText, screenshotFullPage = true, } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Web: Wait for URL -url: ${url} -options: ${JSON.stringify(options_json)}`, async () => {
             await doWaitForUrl();
         });
@@ -1353,7 +1353,7 @@ async function pressKey(page, key, options) {
     const { screenshot = false, screenshotText = "", screenshotFullPage = true, } = options_json;
     if (!page)
         throw new Error("Page not initialized");
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await test_1.test.step(`Web: Press Key -key: ${key} -options: ${JSON.stringify(options_json)}`, async () => {
             await doPressKey();
         });
@@ -1395,7 +1395,7 @@ async function processScreenshot(page, shouldTake, text = "Screenshot", fullPage
         ? await selector.screenshot()
         : await page.screenshot({ fullPage });
     try {
-        if ((0, runner_1.isCucumberRunner)()) {
+        if ((0, runnerType_1.isCucumberRunner)()) {
             const world = _playq_1.webFixture.getWorld();
             if (world && typeof world.attach === "function") {
                 await world.attach(screenshotBuffer, "image/png");
@@ -1406,7 +1406,7 @@ async function processScreenshot(page, shouldTake, text = "Screenshot", fullPage
                 console.warn(`⚠️ No Cucumber World context. Screenshot not attached.`);
             }
         }
-        else if ((0, runner_1.isPlaywrightRunner)()) {
+        else if ((0, runnerType_1.isPlaywrightRunner)()) {
             const { test } = await Promise.resolve().then(() => __importStar(require("@playwright/test")));
             await test
                 .info()

@@ -22,7 +22,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { vars,comm } from "@playq";
 import * as allure from "allure-js-commons";
-import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
+import { isCucumberRunner, isPlaywrightRunner } from "../util/runnerType";
 
 
 

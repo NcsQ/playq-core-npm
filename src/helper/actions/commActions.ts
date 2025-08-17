@@ -1,7 +1,7 @@
 import { vars, webFixture, logFixture } from "@playq";
 import { warn } from "winston";
 import * as crypto from '../util/utilities/cryptoUtil';
-import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
+import { isCucumberRunner, isPlaywrightRunner } from "../util/runnerType";
 import { test as playwrightTest } from "@playwright/test";
 import * as allure from "allure-js-commons";
 import * as fs from 'fs';

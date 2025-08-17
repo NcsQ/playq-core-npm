@@ -49,7 +49,7 @@ exports.storeValue = storeValue;
 exports.generateTotpTokenToVariable = generateTotpTokenToVariable;
 const _playq_1 = require("@playq");
 const crypto = __importStar(require("../util/utilities/cryptoUtil"));
-const runner_1 = require("@config/runner");
+const runnerType_1 = require("../util/runnerType");
 const test_1 = require("@playwright/test");
 const allure = __importStar(require("allure-js-commons"));
 const fs = __importStar(require("fs"));
@@ -267,7 +267,7 @@ async function attachLog(message, mimeType, msgType) {
         mimeType = "text/plain";
     if (!msgType)
         msgType = "";
-    if ((0, runner_1.isCucumberRunner)()) {
+    if ((0, runnerType_1.isCucumberRunner)()) {
         const world = _playq_1.webFixture.getWorld();
         if (world === null || world === void 0 ? void 0 : world.attach) {
             await world.attach(message, mimeType);
@@ -276,7 +276,7 @@ async function attachLog(message, mimeType, msgType) {
             console.warn("⚠️ No World.attach() available in Cucumber context");
         }
     }
-    else if ((0, runner_1.isPlaywrightRunner)()) {
+    else if ((0, runnerType_1.isPlaywrightRunner)()) {
         await test_1.test
             .info()
             .attach(msgType || "Log", { body: message, contentType: mimeType });
@@ -319,7 +319,7 @@ async function storeValue(value, varName, options) {
 async function generateTotpTokenToVariable(varName, options) {
     const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
     const { secret, step = 30, digits = 6, algorithm = "SHA-1" } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Comm: Generate TOTP Token to variable -varName: ${varName} -options: ${JSON.stringify(options_json)}`, async () => {
             await doGenerateTotpTokenToVariable();
         });

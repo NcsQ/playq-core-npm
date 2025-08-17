@@ -63,7 +63,7 @@ const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const _playq_1 = require("@playq");
 const allure = __importStar(require("allure-js-commons"));
-const runner_1 = require("@config/runner");
+const runnerType_1 = require("../util/runnerType");
 /**
  * Calls a predefined API action using configuration from a resource file, supporting dynamic variable replacement,
  * custom headers, body, parameters, authentication, and assertion of expected status codes.
@@ -123,7 +123,7 @@ async function callApi(action, config, baseUrl, options) {
     const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
     const { maxUrlRedirects = Number(_playq_1.vars.getConfigValue("apiTest.maxUrlRedirects")) || 5, // Axios defalt is 5
     maxTimeout = Number(_playq_1.vars.getConfigValue("apiTest.timeout")) || 10000, auth, toNumber = undefined, toBoolean = undefined, } = options_json !== null && options_json !== void 0 ? options_json : {};
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Api: Call api -action: ${action} -config: ${config} -baseUrl: ${baseUrl} -options: ${JSON.stringify(options_json)}`, async () => {
             await doCallApi();
         });
@@ -328,7 +328,7 @@ async function verifyValue(actual, expected, options) {
     const resolvedExpected = _playq_1.vars.replaceVariables(expected);
     const options_json = typeof options === "string" ? _playq_1.vars.parseLooseJson(options) : options || {};
     const { assert = true, partial_text = false } = options_json;
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Api: Verify value -actual: ${resolvedActual} -expected: ${resolvedExpected} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyValue();
         });
@@ -380,7 +380,7 @@ async function verifyPathValue(path, expected, options) {
     };
     let actual;
     let allureMsg = "";
-    if ((0, runner_1.isPlaywrightRunner)()) {
+    if ((0, runnerType_1.isPlaywrightRunner)()) {
         await allure.step(`Api: Verify api path value in last response -path: ${path} -expected: ${resolvedExpected} -options: ${JSON.stringify(options_json)}`, async () => {
             await doVerifyPathValue();
             // if (allureMsg) await allure.attachment(`${allureMsg}`, "", "text/plain");
