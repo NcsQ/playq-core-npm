@@ -18,6 +18,8 @@
 
 import axios from "axios";
 import type { AxiosResponse } from "axios";
+import * as path from "path";
+import * as fs from "fs";
 import { vars,comm } from "@playq";
 import * as allure from "allure-js-commons";
 import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";
@@ -106,7 +108,14 @@ export async function callApi(action: string, config: string, baseUrl: string, o
     vars.setValue("internal.api.last.resHeader", "");
     vars.setValue("internal.api.last.resBody", "");
 
-    const actionPath = require.resolve(`../../../resources/api/${action}.api.ts`);
+    // Resolve API module from the consumer's project resources directory
+    const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
+    const tsPath = path.resolve(projectRoot, `resources/api/${action}.api.ts`);
+    const jsPath = path.resolve(projectRoot, `resources/api/${action}.api.js`);
+    const actionPath = fs.existsSync(tsPath) ? tsPath : jsPath;
+    if (!fs.existsSync(actionPath)) {
+      throw new Error(`API action file not found: ${tsPath} or ${jsPath}`);
+    }
 
     const apiModule = await require(actionPath);
     const apiConfig = apiModule.api[config];

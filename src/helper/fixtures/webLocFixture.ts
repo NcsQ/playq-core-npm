@@ -60,9 +60,14 @@ export async function webLocResolver(
       const [, locType, pageName, fieldName] = parts;
         if (selector.startsWith("loc.json.")) {
         const [, , fileName, pageName, fieldName] = selector.split(".");
-        const jsonLocatorMap = await import(
-          `@resources/locators/loc-json/${fileName}.json`
-        );
+        const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
+        const jsonPath = `${projectRoot}/resources/locators/loc-json/${fileName}.json`;
+        let jsonLocatorMap: any;
+        try {
+          jsonLocatorMap = JSON.parse(require('fs').readFileSync(jsonPath,'utf-8'));
+        } catch (e) {
+          throw new Error(`❌ Resource locator JSON not found or invalid: ${jsonPath}`);
+        }
         const pageObj = jsonLocatorMap?.[pageName];
         if (!pageObj)
           throw new Error(

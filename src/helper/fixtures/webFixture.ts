@@ -31,12 +31,13 @@ export const webFixture = {
   },
   async newContext(options?: Parameters<Browser["newContext"]>[0]) {
     if (!options) {
-        options = {
-            recordVideo: {
-            dir: "test-results/videos",
-            },
-        };
-    }   
+      const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
+      options = {
+        recordVideo: {
+          dir: `${projectRoot}/test-results/videos`,
+        },
+      } as any;
+    }
     context = await browser.newContext(options);
     return context;
   },

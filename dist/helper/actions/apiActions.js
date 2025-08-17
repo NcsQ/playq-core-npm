@@ -59,6 +59,8 @@ exports.storeLastResponseJsonPathsToVariables = storeLastResponseJsonPathsToVari
 exports.verifyValue = verifyValue;
 exports.verifyPathValue = verifyPathValue;
 const axios_1 = __importDefault(require("axios"));
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const _playq_1 = require("@playq");
 const allure = __importStar(require("allure-js-commons"));
 const runner_1 = require("@config/runner");
@@ -136,7 +138,14 @@ async function callApi(action, config, baseUrl, options) {
         _playq_1.vars.setValue("internal.api.last.resStatusText", "");
         _playq_1.vars.setValue("internal.api.last.resHeader", "");
         _playq_1.vars.setValue("internal.api.last.resBody", "");
-        const actionPath = require.resolve(`../../../resources/api/${action}.api.ts`);
+        // Resolve API module from the consumer's project resources directory
+        const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
+        const tsPath = path.resolve(projectRoot, `resources/api/${action}.api.ts`);
+        const jsPath = path.resolve(projectRoot, `resources/api/${action}.api.js`);
+        const actionPath = fs.existsSync(tsPath) ? tsPath : jsPath;
+        if (!fs.existsSync(actionPath)) {
+            throw new Error(`API action file not found: ${tsPath} or ${jsPath}`);
+        }
         const apiModule = await require(actionPath);
         const apiConfig = apiModule.api[config];
         if (!apiConfig) {

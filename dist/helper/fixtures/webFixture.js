@@ -28,9 +28,10 @@ exports.webFixture = {
     },
     async newContext(options) {
         if (!options) {
+            const projectRoot = process.env.PLAYQ_PROJECT_ROOT || process.cwd();
             options = {
                 recordVideo: {
-                    dir: "test-results/videos",
+                    dir: `${projectRoot}/test-results/videos`,
                 },
             };
         }
