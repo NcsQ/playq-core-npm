@@ -1,4 +1,4 @@
-import { vars, webFixture, logFixture } from "@src/global";
+import { vars, webFixture, logFixture } from "@playq";
 import { warn } from "winston";
 import * as crypto from '../util/utilities/cryptoUtil';
 import { isCucumberRunner, isPlaywrightRunner } from "@config/runner";

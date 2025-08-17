@@ -1,4 +1,4 @@
-import { vars, webLocResolver, webFixture, logFixture } from "@src/global";
+import { vars, webLocResolver, webFixture, logFixture } from "@playq";
 import type { Locator, Page as page} from "@playwright/test";
 import { Given, When, Then } from "@cucumber/cucumber";
 import { warn } from "winston";

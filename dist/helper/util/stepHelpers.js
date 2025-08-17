@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.attachResolvedStep = attachResolvedStep;
 exports.defineLoggedStep = defineLoggedStep;
-const global_1 = require("@src/global");
+const _playq_1 = require("@playq");
 async function attachResolvedStep(thisArg, template) {
-    const resolved = global_1.vars.replaceVariables(template);
+    const resolved = _playq_1.vars.replaceVariables(template);
     await thisArg.attach(`🧾 Resolved Step: ${resolved}`, 'text/plain');
 }
 function defineLoggedStep(pattern, implementation) {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const global_1 = require("@src/global");
+const _playq_1 = require("@playq");
 const runner_1 = require("@config/runner");
 // // Given("Web: I open web browser with {param}", async function (url) {
 // //   await web.goto(url);
@@ -88,7 +88,7 @@ class WebActions {
         this.attachFn = fn;
     }
     async captureAndAttachScreenshot(message) {
-        const page = global_1.webFixture.getCurrentPage();
+        const page = _playq_1.webFixture.getCurrentPage();
         if (page) {
             const screenshot = await page.screenshot();
             await this.attachFn(screenshot, "image/png");
