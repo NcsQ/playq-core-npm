@@ -1,0 +1,1 @@
+{"version":3,"file":"runnerType.js","sourceRoot":"","sources":["../../../src/helper/util/runnerType.ts"],"names":[],"mappings":";;AAAA,gDAEC;AAED,4CAEC;AAND,SAAgB,kBAAkB;IAChC,OAAO,OAAO,CAAC,GAAG,CAAC,WAAW,KAAK,YAAY,CAAC;AAClD,CAAC;AAED,SAAgB,gBAAgB;IAC9B,OAAO,OAAO,CAAC,GAAG,CAAC,WAAW,KAAK,UAAU,CAAC;AAChD,CAAC"}
