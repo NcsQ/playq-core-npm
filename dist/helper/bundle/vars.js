@@ -294,8 +294,9 @@ function parseLooseJson(str) {
 }
 function loadDefaults() {
     try {
-        const defaultEntriesPath = path.resolve(process.env.PLAYQ_CORE_ROOT, 'helper/bundle/defaultEntries');
-        const { default: defaultEntries } = require(defaultEntriesPath);
+        // Load bundled defaults relative to this file so it works in consumers
+        const defaultEntriesModule = require('./defaultEntries');
+        const defaultEntries = defaultEntriesModule.default || defaultEntriesModule;
         if (Array.isArray(defaultEntries)) {
             defaultEntries.forEach((item) => {
                 let value = getValue('env.' + item.name, true) ? getValue('env.' + item.name) : (getValue(item.name, true) ? getValue(item.name) : item.value);
