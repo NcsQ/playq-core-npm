@@ -45,6 +45,8 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 let importedVars = {};
 const varFilePath = path.resolve(process.cwd(), "resources/variable.ts");
+console.log(`📄 Loading variable process.cwd() definitions from: ${process.cwd()}`);
+console.log(`📄 Loading variable varFilePath definitions from: ${varFilePath}`);
 const patternDirs = [
     path.resolve(process.cwd(), "resources/locators/pattern"),
     path.resolve(process.cwd(), "extend/addons/pattern"),
