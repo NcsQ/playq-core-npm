@@ -32,8 +32,11 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.faker = exports.webLocResolver = exports.logFixture = exports.webFixture = exports.apiActions = exports.webActions = exports.actions = exports.report = exports.browsers = exports.utils = exports.vars = exports.loadEnv = void 0;
+exports.dataTest = exports.api = exports.locResolve = exports.web = exports.comm = exports.faker = exports.webLocResolver = exports.logFixture = exports.webFixture = exports.apiActions = exports.webActions = exports.actions = exports.report = exports.browsers = exports.utils = exports.vars = exports.loadEnv = void 0;
 // Public API surface for playq-core consumers
 var env_1 = require("./helper/bundle/env");
 Object.defineProperty(exports, "loadEnv", { enumerable: true, get: function () { return env_1.loadEnv; } });
@@ -54,5 +57,14 @@ var webLocFixture_1 = require("./helper/fixtures/webLocFixture");
 Object.defineProperty(exports, "webLocResolver", { enumerable: true, get: function () { return webLocFixture_1.webLocResolver; } });
 var customFaker_1 = require("./helper/faker/customFaker");
 Object.defineProperty(exports, "faker", { enumerable: true, get: function () { return customFaker_1.faker; } });
+// Friendly aliases for common imports
+exports.comm = __importStar(require("./helper/actions/commActions"));
+var web_1 = require("./helper/actions/web");
+Object.defineProperty(exports, "web", { enumerable: true, get: function () { return __importDefault(web_1).default; } });
+var webLocFixture_2 = require("./helper/fixtures/webLocFixture");
+Object.defineProperty(exports, "locResolve", { enumerable: true, get: function () { return webLocFixture_2.webLocResolver; } });
+exports.api = __importStar(require("./helper/actions/apiActions"));
+var dataTest_1 = require("./helper/util/test-data/dataTest");
+Object.defineProperty(exports, "dataTest", { enumerable: true, get: function () { return dataTest_1.dataTest; } });
 // Note: Global bootstrap is available at subpath export "playq-core/global" if needed.
 //# sourceMappingURL=index.js.map
