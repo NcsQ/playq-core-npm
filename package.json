@@ -30,6 +30,7 @@
   },
   "scripts": {
   "build": "rimraf dist && tsc -p tsconfig.build.json && node scripts/check-dist-aliases.js",
+  "prepare": "npm run build",
   "check:dist": "node scripts/check-dist-aliases.js",
     "dev": "tsc -w -p tsconfig.build.json",
     "playq:test": "cross-env npx ts-node -r tsconfig-paths/register src/exec/runner.ts",
