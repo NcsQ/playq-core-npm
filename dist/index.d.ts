@@ -11,7 +11,7 @@ export { logFixture } from './helper/fixtures/logFixture';
 export { webLocResolver } from './helper/fixtures/webLocFixture';
 export { faker } from './helper/faker/customFaker';
 export * as comm from './helper/actions/commActions';
-export { default as web } from './helper/actions/web';
+export * as web from './helper/actions/webActions';
 export { webLocResolver as locResolve } from './helper/fixtures/webLocFixture';
 export * as api from './helper/actions/apiActions';
 export { dataTest } from './helper/util/test-data/dataTest';

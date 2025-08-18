@@ -18,7 +18,8 @@ export { faker } from './helper/faker/customFaker';
 
 // Friendly aliases for common imports
 export * as comm from './helper/actions/commActions';
-export { default as web } from './helper/actions/web';
+// Expose functional web API under `web` so consumers can call web.openBrowser(), web.fill(), etc.
+export * as web from './helper/actions/webActions';
 export { webLocResolver as locResolve } from './helper/fixtures/webLocFixture';
 export * as api from './helper/actions/apiActions';
 export { dataTest } from './helper/util/test-data/dataTest';
