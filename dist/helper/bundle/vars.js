@@ -316,7 +316,8 @@ function initVars(vars) {
         // Load config with error handling
         let configEntries = {};
         try {
-            const importConfigPath = path.resolve(process.env.PLAYQ_PROJECT_ROOT, 'resources/config');
+            const importConfigPath = path.resolve(process.env.PLAYQ_PROJECT_ROOT, 'resources/config.ts');
+            console.log('TO REMOVE====importConfigPath >', importConfigPath);
             const configModule = require(importConfigPath);
             configEntries = configModule.config || configModule.default || {};
         }
@@ -326,7 +327,8 @@ function initVars(vars) {
         // Load variables with error handling
         let variablesEntries = {};
         try {
-            const importVariablePath = path.resolve(process.env.PLAYQ_PROJECT_ROOT, 'resources/variable');
+            const importVariablePath = path.resolve(process.env.PLAYQ_PROJECT_ROOT, 'resources/var.static.json');
+            console.log('TO REMOVE====importVariablePath >', importVariablePath);
             const variableModule = require(importVariablePath);
             variablesEntries = variableModule.var_static || variableModule.default || {};
         }
